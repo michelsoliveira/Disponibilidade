@@ -39,4 +39,18 @@
         }
     }
     
-    function SalvarHorários
+    function SalvarHorários($horarios)
+    {
+        
+        $sql = "CALL INSERE_DISPONIBILIDADE()";
+        if(!empty($horarios))
+        {
+            $qtd = count($itens);
+            for ($i = 0; $i < $qtd; $i++)
+            {
+               $conn = Conexao::getConexao();
+               $stmt = $conn->prepare($sql);
+               
+            }
+        }
+    }
