@@ -11,7 +11,7 @@ window.onload = function() {
 	            var checks = tab.getElementsByTagName("input");
 	            for(var i=0; i<checks.length; i++) {
 	                var chk = checks[i];
-	                if(chk.name == "segunda[]")
+	                if(chk.id == "segunda")
 	                    chk.checked = this.checked;
 	            }
 	}
@@ -22,7 +22,7 @@ window.onload = function() {
 	            var checks = tab.getElementsByTagName("input");
 	            for(var i=0; i<checks.length; i++) {
 	                var chk = checks[i];
-	                if(chk.name == "terca[]")
+	                if(chk.id == "terca")
 	                    chk.checked = this.checked;
 	            }
 	}
@@ -33,7 +33,7 @@ window.onload = function() {
 	            var checks = tab.getElementsByTagName("input");
 	            for(var i=0; i<checks.length; i++) {
 	                var chk = checks[i];
-	                if(chk.name == "quarta[]")
+	                if(chk.id == "quarta")
 	                    chk.checked = this.checked;
 	            }
 	}
@@ -44,7 +44,7 @@ window.onload = function() {
 	            var checks = tab.getElementsByTagName("input");
 	            for(var i=0; i<checks.length; i++) {
 	                var chk = checks[i];
-	                if(chk.name == "quinta[]")
+	                if(chk.id == "quinta")
 	                    chk.checked = this.checked;
 	            }
 	}
@@ -55,7 +55,7 @@ window.onload = function() {
 	            var checks = tab.getElementsByTagName("input");
 	            for(var i=0; i<checks.length; i++) {
 	                var chk = checks[i];
-	                if(chk.name == "sexta[]")
+	                if(chk.id == "sexta")
 	                    chk.checked = this.checked;
 	            }
 	}
@@ -66,7 +66,7 @@ window.onload = function() {
 	            var checks = tab.getElementsByTagName("input");
 	            for(var i=0; i<checks.length; i++) {
 	                var chk = checks[i];
-	                if(chk.name == "sabado[]")
+	                if(chk.id == "sabado")
 	                    chk.checked = this.checked;
 	            }
 	}
@@ -77,7 +77,7 @@ window.onload = function() {
 	            var checks = tab.getElementsByTagName("input");
 	            for(var i=0; i<checks.length; i++) {
 	                var chk = checks[i];
-	                if(chk.name == "segunda[]")
+	                if(chk.id == "segunda")
 	                    chk.checked = this.checked;
 	            }
 	}
@@ -88,7 +88,7 @@ window.onload = function() {
 	            var checks = tab.getElementsByTagName("input");
 	            for(var i=0; i<checks.length; i++) {
 	                var chk = checks[i];
-	                if(chk.name == "terca[]")
+	                if(chk.id == "terca")
 	                    chk.checked = this.checked;
 	            }
 	}
@@ -99,7 +99,7 @@ window.onload = function() {
 	            var checks = tab.getElementsByTagName("input");
 	            for(var i=0; i<checks.length; i++) {
 	                var chk = checks[i];
-	                if(chk.name == "quarta[]")
+	                if(chk.id == "quarta")
 	                    chk.checked = this.checked;
 	            }
 	}
@@ -110,7 +110,7 @@ window.onload = function() {
 	            var checks = tab.getElementsByTagName("input");
 	            for(var i=0; i<checks.length; i++) {
 	                var chk = checks[i];
-	                if(chk.name == "quinta[]")
+	                if(chk.id == "quinta")
 	                    chk.checked = this.checked;
 	            }
 	}
@@ -121,7 +121,7 @@ window.onload = function() {
 	            var checks = tab.getElementsByTagName("input");
 	            for(var i=0; i<checks.length; i++) {
 	                var chk = checks[i];
-	                if(chk.name == "sexta[]")
+	                if(chk.id == "sexta")
 	                    chk.checked = this.checked;
 	            }
 	}
@@ -132,7 +132,7 @@ window.onload = function() {
 	            var checks = tab.getElementsByTagName("input");
 	            for(var i=0; i<checks.length; i++) {
 	                var chk = checks[i];
-	                if(chk.name == "sabado[]")
+	                if(chk.id == "sabado")
 	                    chk.checked = this.checked;
 	            }
 	}             
