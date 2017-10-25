@@ -15,7 +15,7 @@ class Database
     {
         # Informações sobre o banco de dados:
         $db_host = "localhost";
-        $db_nome = "db_test";
+        $db_nome = "db_disp";
         $db_usuario = "root";
         $db_senha = "";
         $db_driver = "mysql";
