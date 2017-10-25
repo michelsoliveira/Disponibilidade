@@ -6,17 +6,19 @@
  * and open the template in the editor.
  */
 
-    require_once './lib/conexao.php';
+    require_once 'conexao.php';
     session_start();
     
     class Funcoes
     {
-        public static function salvarDadosUsuario($nome,$telefone,$email,$discapto,$outrasinfo)    
+        public $db;
+
+        public static function salvarDadosUsuario($nome,$email,$telefone,$discapto,$outrasinfo)    
         {
             $db = Database::Conexao();
 
 
-            $sql = "CALL INSERE_PROFESSOR(:nome,:email,:telefone,:discapto,:outrasinfo)";
+            $sql = "INSERT INTO professor(nome, email, telefone, discapto, outrasinfo) VALUES(:nome,:email,:telefone,:discapto,:outrasinfo)";
             try
             {
 
@@ -28,19 +30,19 @@
                 $stmt->bindValue(':outrasinfo', $outrasinfo, PDO::PARAM_STR);
                 $stmt->execute();
 
-                $LSID = $bd->lastInsertId();
+                $LSID = $db->lastInsertId();
                 return $LSID;
             }
             catch (Exception $e)
             {
-                throw  new Exception("Erro ao Salvar dados do usuário");
+                throw  new Exception($e);
             }
         }
 
         public static function salvarDisponibilidadeProfesor($idprofessor, $iddt)
         {
             $bd = Database::Conexao();
-            $sql = "CALL INSERE_DISPONIBLIDADE(?, ?)";
+            $sql = "INSERT INTO disponibilidade(professor_id, diatempo_id) VALUES (?, ?)";
             
             try
             {
@@ -52,7 +54,7 @@
             }
             catch(Exception $e)
             {
-                throw new Exception("Erro ao salvar disponibilidade");
+                throw new Exception($e);
             }
              
         }
@@ -68,17 +70,17 @@
                     
                     for ($i = 0; $i<$qtd; $i++)
                     {
-                        if(Funcoes::buscarDiaTempo($grupo[$i]))
+                        if(Funcoes::buscarDiaTempo($horario[$i]))
                         {
-                            $idhorarios = ($grupo[$i]);
-                            Funcoes::salvarDisponibilidadeProfesor($idprofessor, $iddt);
+                            $idhorarios = ($horario[$i]);
+                            Funcoes::salvarDisponibilidadeProfesor($idprofessor, $idhorarios);
                         }
                     }
                 }
             }
             catch(Exception $e)
             {
-               throw new Exception("Erro ao Alocar o professor no horário"); 
+               throw new Exception($e); 
             }
         }
         
@@ -88,7 +90,7 @@
         {
             $bd = Database::Conexao();
 
-            $sql = "SELECT COUNT(*) FROM dia_tempo WHERE id=:id";
+            $sql = "SELECT COUNT(*) FROM diatempo WHERE id=:id";
 
             try
             {
@@ -100,7 +102,7 @@
             }
             catch (Exception $e)
             {
-                throw new Exception("Erro ao verificar disponibilidade");
+                throw new Exception($e);
             }
         }
     }
