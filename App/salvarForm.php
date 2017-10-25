@@ -6,7 +6,7 @@
  * and open the template in the editor.
  */
 
-    require_once './lib/conexao.php';
+    require_once 'conexao.php';
     require_once 'funcoes.php';
 
     $horarios = $_REQUEST['horarios'];
@@ -14,12 +14,14 @@
     $email = $_REQUEST['email'];
     $telefone = $_REQUEST['telefone'];
     $discapto = $_REQUEST['disc-apto'];
-    $outrasinfo = $_REQUEST['outras-info'];
+    $outrasinfo = $_REQUEST['outrasinfo'];
     
     try
     {
+
         $lastid = Funcoes::salvarDadosUsuario($nome, $telefone, $email, $discapto, $outrasinfo);
-        Funcoes::salvarDisponibilidadeProfesor($lastid, $horarios);
+        Funcoes::verificarESalvar($lastid, $horarios);
+        echo "SALVO!";
     }
     catch(Exception $e)
     {
