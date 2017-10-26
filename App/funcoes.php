@@ -130,6 +130,54 @@
             }
             
         }
+    
+        public static function contadorDispProf($id)
+        {
+            $bd = Database::Conexao();
+            $sql = "SELECT count(*)  from professor AS p, disponibilidade AS d, diatempo AS dt, tempoaula AS tp, diasemana AS ds
+                    WHERE p.id = :id
+                    AND p.id = d.professor_id
+                    AND d.diatempo_id = dt.id
+                    AND dt.diasemana_id = ds.id
+                    AND dt.tempoaula_id = tp.id;";
+            
+            $qtd = 0;
+            
+            try
+            {
+                $stmt = $bd->prepare($sql);
+                $stmt = $bd->bindValue('id', $id, PDO::PARAM_INT);
+                $qtd = $stmt->execute();
+                
+                return $qtd;
+            }
+            catch(Exception $e)
+            {
+                throw new Exception($e);
+            }
+            
+        }
+        
+        public static function contadorProf()
+        {
+            $bd = Database::Conexao();
+            $sql = "SELECT count(*)  from professor";
+            $qtd = 0;
+            
+            try
+            {
+                $stmt = $bd->prepare($sql);
+                $qtd = $stmt->execute();
+                
+                return $qtd;
+            }
+            catch(Exception $e)
+            {
+                throw new Exception($e);
+            }
+            
+        }
+        
         
         public static function buscarDispProf($idprof)
         {
@@ -143,12 +191,77 @@
                 //{
                     if($idprof == $idprofdisp)//idprofdisp é o id do professor na tabela disponibilidade.
                     {
-                        if($iddisp == 1)
+                        if($iddisp == 1);
                             
                         
                     }
                //}
             }
+            
+        }
+        
+        public static function gerarHorarioUrania($id)
+        {
+            $db = Database::Conexao();
+            
+            $sql = "SELECT d.professor_id,d.diatempo_id, dt.diasemana_id, dt.tempoaula_id 
+                    FROM disponibilidade AS d, diatempo AS dt 
+                    WHERE d.professor_id = :id
+                    AND d.diatempo_id = dt.id;";
+            
+            $qtd; 
+            $j = 1;
+            $k = 1;
+            $horario = 0;
+            
+            try
+            {
+                $stmt = $db->prepare($sql);
+                $stmt->bindValue(':id', $id, PDO::PARAM_INT);
+                $result = $stmt->execute();
+                //$qtd = $stmt->rowCount(); //numero de linhas da consulta = quantidade de registros de disponibilidades
+                
+                if($result)
+                {
+                    while($row = $result->fetch(PDO::FETCH_OBJ)) //percorre todos os registros de disponinilidade do PROFESSOR referenciado no $id
+                    {
+
+                        for($d = 0; $d<6; $d++)//percore os registro dos dias 
+                        {        
+                            if($row->diasemana_id == $d)//verifica se o registro de disponibilidade no dia existe 
+                            {
+                                if($row->diatempo_id == $k) //verifica se o registro de disponibilidade existe
+                                {
+                                    $horario .= 1; //marca 1 para disponivel se existir o registro
+
+                                    $k += 9; //soma mais nove referente ao id do proximo horario no dia
+
+                                    $d++;//soma mais 1 referente ao id do proximo dia
+                                }
+                                else
+                                {
+                                    $horario .= 0; //marca 0 para indisponivel se o registro nao existir
+
+                                    $k += 9; //soma mais nove referente ao id do proximo horario no dia
+
+                                    $d++;//soma mais 1 referente ao id do proximo dia
+                                }
+                            }
+                            else
+                            {
+                                $d++;//soma mais 1 referente ao id do proximo dia
+                            }
+                        }
+                    }
+                }
+                 
+            } 
+            catch (Exception $e) 
+            {
+                throw new Exception($e);
+            }
+            
+            
             
         }
     }
