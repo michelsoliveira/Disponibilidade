@@ -105,4 +105,50 @@
                 throw new Exception($e);
             }
         }
+        
+        public static function contadordisp()
+        {
+            $bd = Database::Conexao();
+            $sql = "SELECT count(*)  from professor AS p, disponibilidade AS d, diatempo AS dt, tempoaula AS tp, diasemana AS ds
+                    WHERE p.id = d.professor_id
+                    AND d.diatempo_id = dt.id
+                    AND dt.diasemana_id = ds.id
+                    AND dt.tempoaula_id = tp.id;";
+            
+            $qtd = 0;
+            
+            try
+            {
+                $stmt = $bd->prepare($sql);
+                $qtd = $stmt->execute();
+                
+                return $qtd;
+            }
+            catch(Exception $e)
+            {
+                throw new Exception($e);
+            }
+            
+        }
+        
+        public static function buscarDispProf($idprof)
+        {
+            $Ahorario[6] = 0;
+            $qtd = Funcoes::contadordisp();
+            
+            for($i = 0; $i<$qtd; $i++)
+            {
+            
+                //for($j=0; $j<6;)
+                //{
+                    if($idprof == $idprofdisp)//idprofdisp é o id do professor na tabela disponibilidade.
+                    {
+                        if($iddisp == 1)
+                            
+                        
+                    }
+               //}
+            }
+            
+        }
     }
