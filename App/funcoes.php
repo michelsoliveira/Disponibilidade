@@ -204,10 +204,7 @@
         {
             $db = Database::Conexao();
             
-            $sql = "SELECT d.professor_id,d.diatempo_id, dt.diasemana_id, dt.tempoaula_id 
-                    FROM disponibilidade AS d, diatempo AS dt 
-                    WHERE d.professor_id = :id
-                    AND d.diatempo_id = dt.id;";
+            $sql = "SELECT * FROM uvw_prof_manha"
             
             $qtd; 
             $j = 1;
@@ -219,41 +216,9 @@
                 $stmt = $db->prepare($sql);
                 $stmt->bindValue(':id', $id, PDO::PARAM_INT);
                 $result = $stmt->execute();
-                //$qtd = $stmt->rowCount(); //numero de linhas da consulta = quantidade de registros de disponibilidades
                 
-                if($result)
-                {
-                    while($row = $result->fetch(PDO::FETCH_OBJ)) //percorre todos os registros de disponinilidade do PROFESSOR referenciado no $id
-                    {
-
-                        for($d = 0; $d<6; $d++)//percore os registro dos dias 
-                        {        
-                            if($row->diasemana_id == $d)//verifica se o registro de disponibilidade no dia existe 
-                            {
-                                if($row->diatempo_id == $k) //verifica se o registro de disponibilidade existe
-                                {
-                                    $horario .= 1; //marca 1 para disponivel se existir o registro
-
-                                    $k += 9; //soma mais nove referente ao id do proximo horario no dia
-
-                                    $d++;//soma mais 1 referente ao id do proximo dia
-                                }
-                                else
-                                {
-                                    $horario .= 0; //marca 0 para indisponivel se o registro nao existir
-
-                                    $k += 9; //soma mais nove referente ao id do proximo horario no dia
-
-                                    $d++;//soma mais 1 referente ao id do proximo dia
-                                }
-                            }
-                            else
-                            {
-                                $d++;//soma mais 1 referente ao id do proximo dia
-                            }
-                        }
-                    }
-                }
+                
+              
                  
             } 
             catch (Exception $e) 
