@@ -1,5 +1,6 @@
 SELECT   
-	p.nome    
+	p.id
+    ,p.nome    
 	,dt.diasemana_id     
 	,sum(case when dt.tempoaula_id = 1 then 1 else 0 end) as aula1     
 	,sum(case when dt.tempoaula_id = 2 then 1 else 0 end) as aula2     
@@ -19,6 +20,4 @@ FROM
     inner join diatempo as dt on dp.diatempo_id = dt.id     
 	inner join diasemana as ds on dt.diasemana_id = ds.id     
 	inner join tempoaula as ta on dt.tempoaula_id = ta.id 
-WHERE  
-	dp.professor_id = 24
 group by dp.professor_id, dt.diasemana_id
