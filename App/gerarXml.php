@@ -10,11 +10,12 @@
         
     $db = Database::conexao();
     $result = $db->query("SELECT * FROM professor");
-    
-    
-
-
-
+    $seg = 1;
+    $ter = 1;
+    $qua = 1;
+    $qui = 1;
+    $sex = 1;
+    $sab = 1;
 
     
     #versao do encoding xml
@@ -53,72 +54,95 @@
         $registro->appendChild($nome);
             
         while($row2 = $result2->fetch(PDO::FETCH_OBJ))
-            {
+        {
                 $diaid = $row2->diasemana_id;
                 //var_dump($row2);
-                
-                if( $diaid == 1)
-                {
-                    $segunda = $dom->createElement("SEG", $row2->horario);
-                    $registro->appendChild($segunda);
-                }
-                else
-                {
-                    $segunda = $dom->createElement("SEG", "00000");
-                    $registro->appendChild($segunda);
+                   
+                        
+                        if($diaid == 1)
+                        {
+                            $segunda = $dom->createElement("SEG", $row2->horario);
+                            $registro->appendChild($segunda);
+                            
+                        }
+                        else
+                        {
+                            $segunda = $dom->createElement("SEG", "00000");
+                            $registro->appendChild($segunda);
+                            
 
-                }
-                if($diaid == 2)
-                {
-                    $terca = $dom->createElement("TER", $row2->horario);
-                    $registro->appendChild($terca);
-                }
-                else
-                {
-                    $terca = $dom->createElement("TER", "00000");
-                    $registro->appendChild($terca);
-                }
-                if($diaid == 3)
-                {
-                    $quarta = $dom->createElement("QUA", $row2->horario);
-                    $registro->appendChild($quarta);
-                }
-                else
-                {
-                    $quarta = $dom->createElement("QUA", "00000");
-                    $registro->appendChild($quarta);
-                }
-                if($diaid == 4)
-                {
-                    $quinta = $dom->createElement("QUI", $row2->horario);
-                    $registro->appendChild($quinta);
-                }
-                else
-                {
-                    $quinta = $dom->createElement("QUI", "00000");
-                    $registro->appendChild($quinta);
-                }
-                if($diaid == 5)
-                {
-                    $sexta = $dom->createElement("SEX", $row2->horario);
-                    $registro->appendChild($sexta);
-                }
-                else
-                {
-                    $sexta = $dom->createElement("SEX", "00000");
-                    $registro->appendChild($sexta);
-                }
-                if($diaid == 6)
-                {
-                     $sabado = $dom->createElement("SAB", $row2->horario);
-                     $registro->appendChild($sabado);
-                }
-                else
-                {
-                    $sabado = $dom->createElement("SAB", "00000");
-                    $registro->appendChild($sabado);
-                }
+                        }
+                    
+                       
+                        if($diaid == 2)
+                        {
+                            $terca = $dom->createElement("TER", $row2->horario);
+                            $registro->appendChild($terca);
+                            
+                        }
+                        else
+                        {
+                            $terca = $dom->createElement("TER", "00000");
+                            $registro->appendChild($terca);
+                            
+                        }
                 
+                        if($diaid == 3)
+                        {
+                            $quarta = $dom->createElement("QUA", $row2->horario);
+                            $registro->appendChild($quarta);
+                            
+                        }
+                        else
+                        {
+                            $quarta = $dom->createElement("QUA", "00000");
+                            $registro->appendChild($quarta);
+                            
+                        }
+                       
+                       
+                        if($diaid == 4)
+                        {
+                            $quinta = $dom->createElement("QUI", $row2->horario);
+                            $registro->appendChild($quinta);
+                            
+                        }
+                        else
+                        {
+                            $quinta = $dom->createElement("QUI", "00000");
+                            $registro->appendChild($quinta);
+                            
+                        }
+                
+                        
+                        if($diaid == 5)
+                        {
+                            $sexta = $dom->createElement("SEX", $row2->horario);
+                            $registro->appendChild($sexta);
+                            
+                        }
+                        else
+                        {
+                            $sexta = $dom->createElement("SEX", "00000");
+                            $registro->appendChild($sexta);
+                            
+                        }
+                
+                
+                        if($diaid == 6)
+                        {
+                             $sabado = $dom->createElement("SAB", $row2->horario);
+                             $registro->appendChild($sabado);
+                             
+                        }
+                        else
+                        {
+                            $sabado = $dom->createElement("SAB", "00000");
+                            $registro->appendChild($sabado);
+                            
+                        }
+                
+        }
                 
                 
                 
@@ -128,7 +152,7 @@
 
 
 
-            }
+        
         
     
         #adiciona os nós (informacaoes do professor) em registro
