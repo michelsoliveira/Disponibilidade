@@ -204,20 +204,15 @@
         {
             $db = Database::Conexao();
             
-            $sql = "SELECT * FROM uvw_prof_manha"
-            
-            $qtd; 
-            $j = 1;
-            $k = 1;
-            $horario = 0;
-            
+            $sql = "SELECT * FROM uvw_prof_manha WHERE id = :id";
+                                    
             try
             {
                 $stmt = $db->prepare($sql);
                 $stmt->bindValue(':id', $id, PDO::PARAM_INT);
-                $result = $stmt->execute();
+                $stmt->execute();
                 
-                
+                return $stmt->fetch(PDO::FETCH_OBJ);
               
                  
             } 
@@ -229,4 +224,26 @@
             
             
         }
+        
+        public static function selectProfAll()
+        {
+            try
+            {
+                $db = Database::conexao();
+
+                $sql = "SELECT * FROM professor";
+
+                $stmt = $db->prepare($sql);
+                $stmt->execute();
+
+                 return $stmt->fetch(PDO::FETCH_OBJ);
+            }
+            catch (Exception $e) 
+            {
+                throw  new Exception($e);
+            }
+                
+        }
+        
+        
     }
