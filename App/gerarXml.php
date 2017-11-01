@@ -1,170 +1,110 @@
 <?php
-        require_once 'funcoes.php';
-        require_once 'conexao.php';
-/* 
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+/**
+ * Created by PhpStorm.
+ * User: michel.oliveira
+ * Date: 01/11/2017
+ * Time: 15:14
  */
-        
-        
-    $db = Database::conexao();
-    $result = $db->query("SELECT * FROM professor");
-    $seg = 1;
-    $ter = 1;
-    $qua = 1;
-    $qui = 1;
-    $sex = 1;
-    $sab = 1;
+    require_once 'conexao.php';
 
-    
-    #versao do encoding xml
+
+    #Instancia a conexao com o banco através da classe conexao
+    $db = Database::conexao();
+
+    #passa para o result as informações de todos os professores no banco
+    $result = $db->query("SELECT * FROM professor");
+
+    #versao do encoding do XML
     $dom = new DOMDocument("1.0", "ISO-8859-1");
 
-    #retirar os espacos em branco
+    #retirar espaços em branco
     $dom->preserveWhiteSpace = false;
 
-    #gerar o codigo
+    #gerar o código
     $dom->formatOutput = true;
 
-    #criando o nó principal (root)
+    #cria o nó principal (<EXPORT_URANIA_INSERT>)
     $root = $dom->createElement("EXPORT_URANIA_INSERT");
 
-    #nó filho (PROFESSORES)
+    #cria nó filho (<PROFESSORES>)
     $professores = $dom->createElement("PROFESSORES");
 
+    #percorre todas as informações dos professores
     while($row = $result->fetch(PDO::FETCH_OBJ))
     {
-        $id = $row->id;
-        //echo $id;
-        $result2 = $db->query("SELECT * FROM uvw_prof_manha WHERE prof_id = $id");
-        
-        
-        //row2 = Funcoes::gerarHorarioUrania($row->id);
-        
-        #nó filho (REGISTRO)
+        #cria nó filho (<REGISTRO>) para cada professor;
         $registro = $dom->createElement("REGISTRO");
 
-
-        #setanto nomes e atributos dos elementos xml (nós)
+        #cria nós filhos de registro código e nome
         $codigo = $dom->createElement("CODIGO", $row->id);
         $nome = $dom->createElement("NOME", $row->nome);
-        
+
+        #adiciona os nós como filho de registro
         $registro->appendChild($codigo);
         $registro->appendChild($nome);
-            
+
+        #armazena o id do professor
+        $id = $row->id;
+
+        #executa a consulta para todas as disponiblidades do professor na vez do lopp
+        $result2 = $db->query("SELECT * FROM uvw_prof_manha WHERE prof_id = $id");
+
+        #cria variaves temporárias para armazenar os horários que se não houver horário preenchido recebe "00000"
+        $seg = "00000"; $ter = "00000"; $qua = "00000"; $qui = "00000"; $sex = "00000"; $sab = "00000";
+
+        #percorre todos os registros de disponibilidade do professor na tabela disponibilidade
         while($row2 = $result2->fetch(PDO::FETCH_OBJ))
         {
-                $diaid = $row2->diasemana_id;
-                //var_dump($row2);
-                   
-                        
-                        if($diaid == 1)
-                        {
-                            $segunda = $dom->createElement("SEG", $row2->horario);
-                            $registro->appendChild($segunda);
-                            
-                        }
-                        else
-                        {
-                            $segunda = $dom->createElement("SEG", "00000");
-                            $registro->appendChild($segunda);
-                            
+            #verifica os dias da semana para preencher o xml com os nós dos dias
+            if($row2->diasemana_id == 1) #segunda
+            {
+                $seg = $row2->horario;
+            }
+            if($row2->diasemana_id == 2) #terca
+            {
+                $ter= $row2->horario;
+            }
+            if($row2->diasemana_id == 3) #quarta
+            {
+                $qua = $row2->horario;
+            }
+            if($row2->diasemana_id == 4) #quinta
+            {
+                $qui = $row2->horario;
+            }
+            if($row2->diasemana_id == 5) #sexta
+            {
+                $sex = $row2->horario;
+            }
+            if($row2->diasemana_id == 6) #sabado
+            {
+                $sab= $row2->horario;
+            }
 
-                        }
-                    
-                       
-                        if($diaid == 2)
-                        {
-                            $terca = $dom->createElement("TER", $row2->horario);
-                            $registro->appendChild($terca);
-                            
-                        }
-                        else
-                        {
-                            $terca = $dom->createElement("TER", "00000");
-                            $registro->appendChild($terca);
-                            
-                        }
-                
-                        if($diaid == 3)
-                        {
-                            $quarta = $dom->createElement("QUA", $row2->horario);
-                            $registro->appendChild($quarta);
-                            
-                        }
-                        else
-                        {
-                            $quarta = $dom->createElement("QUA", "00000");
-                            $registro->appendChild($quarta);
-                            
-                        }
-                       
-                       
-                        if($diaid == 4)
-                        {
-                            $quinta = $dom->createElement("QUI", $row2->horario);
-                            $registro->appendChild($quinta);
-                            
-                        }
-                        else
-                        {
-                            $quinta = $dom->createElement("QUI", "00000");
-                            $registro->appendChild($quinta);
-                            
-                        }
-                
-                        
-                        if($diaid == 5)
-                        {
-                            $sexta = $dom->createElement("SEX", $row2->horario);
-                            $registro->appendChild($sexta);
-                            
-                        }
-                        else
-                        {
-                            $sexta = $dom->createElement("SEX", "00000");
-                            $registro->appendChild($sexta);
-                            
-                        }
-                
-                
-                        if($diaid == 6)
-                        {
-                             $sabado = $dom->createElement("SAB", $row2->horario);
-                             $registro->appendChild($sabado);
-                             
-                        }
-                        else
-                        {
-                            $sabado = $dom->createElement("SAB", "00000");
-                            $registro->appendChild($sabado);
-                            
-                        }
-                
         }
-                
-                
-                
-                
-                
-                
+            #cria os nós dos dias
+            $segunda = $dom->createElement("SEG", $seg);
+            $terca = $dom->createElement("TER", $ter);
+            $quarta = $dom->createElement("QUA", $qua);
+            $quinta = $dom->createElement("QUI", $qui);
+            $sexta = $dom->createElement("SEX", $sex);
+            $sabado = $dom->createElement("SAB", $sab);
 
+            #referencia os nós dos dias como filhos do nó registro
+            $registro->appendChild($segunda);
+            $registro->appendChild($terca);
+            $registro->appendChild($quarta);
+            $registro->appendChild($quinta);
+            $registro->appendChild($sexta);
+            $registro->appendChild($sabado);
 
+            #referencia o nó registro como filho de professor
+            $professores->appendChild($registro);
 
-        
-        
-    
-        #adiciona os nós (informacaoes do professor) em registro
-        
-       
-        
-        #adiciona o nó contato em (root) professor
-        $professores->appendChild($registro);
-     
-    }    
-    
-    $root->appendChild($professores);    
+    }
+
+    #referencia o professor como filho do root
+    $root->appendChild($professores);
     $dom->appendChild($root);
 
     # Para salvar o arquivo, descomente a linha
@@ -172,8 +112,7 @@
 
     #cabeçalho da página
     header("Content-Type: text/xml");
+
     # imprime o xml na tela
     print $dom->saveXML();
-    
-    
 
