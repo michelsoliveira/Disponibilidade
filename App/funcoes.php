@@ -13,19 +13,20 @@
     {
         public $db;
 
-        public static function salvarDadosUsuario($nome,$email,$telefone,$discapto,$outrasinfo)    
+        public static function salvarDadosUsuario($matricula,$nome,$email,$telefone,$discapto,$outrasinfo)    
         {
             $db = Database::Conexao();
 
 
-            $sql = "INSERT INTO professor(nome, email, telefone, discapto, outrasinfo) VALUES(:nome,:email,:telefone,:discapto,:outrasinfo)";
+            $sql = "INSERT INTO professor(matricula, nome, email, telefone, discapto, outrasinfo) VALUES(:matricula,:nome,:email,:telefone,:discapto,:outrasinfo)";
             try
             {
 
                 $stmt = $db->prepare($sql);
+                $stmt->bindValue(':matricula', $matricula, PDO::PARAM_INT);
                 $stmt->bindValue(':nome', $nome, PDO::PARAM_STR);
                 $stmt->bindValue(':email', $email, PDO::PARAM_STR);
-                $stmt->bindValue(':telefone', $telefone, PDO::PARAM_STR);
+                $stmt->bindValue(':telefone', $telefone, PDO::PARAM_INT);
                 $stmt->bindValue(':discapto', $discapto, PDO::PARAM_STR);
                 $stmt->bindValue(':outrasinfo', $outrasinfo, PDO::PARAM_STR);
                 $stmt->execute();
@@ -74,6 +75,7 @@
                         {
                             $idhorarios = ($horario[$i]);
                             Funcoes::salvarDisponibilidadeProfesor($idprofessor, $idhorarios);
+                            
                         }
                     }
                 }
