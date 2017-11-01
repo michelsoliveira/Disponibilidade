@@ -11,7 +11,7 @@ $(document).ready(function() {
 		}else if ($group.data('validate') == "email") {
 			state = /^([a-zA-Z0-9_\.\-])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$/.test($(this).val())
 		}else if($group.data('validate') == 'phone') {
-			state = /^(?:\()[0-9]{2}(?:\))\s?[0-9]{4,5}(?:-)[0-9]{4}$/i.test($(this).val())
+			state = /^(?:(?:\+|00)?(55)\s?)?(?:\(?([1-9][0-9])\)?\s?)?(?:((?:9\d|[2-9])\d{3})\-?(\d{4}))$/.test($(this).val())
 		}else if ($group.data('validate') == "length") {
 			state = $(this).val().length >= $group.data('length') ? true : false;
 		}else if ($group.data('validate') == "number") {
