@@ -10,6 +10,7 @@
     require_once 'funcoes.php';
 
     $horarios = $_REQUEST['horarios'];
+    $matricula = $_REQUEST['matricula'];
     $nome = $_REQUEST['nome'];
     $email = $_REQUEST['email'];
     $telefone = $_REQUEST['telefone'];
@@ -19,7 +20,7 @@
     try
     {
 
-        $lastid = Funcoes::salvarDadosUsuario($nome, $telefone, $email, $discapto, $outrasinfo);
+        $lastid = Funcoes::salvarDadosUsuario($matricula ,$nome, $email, $telefone, $discapto, $outrasinfo);
         Funcoes::verificarESalvar($lastid, $horarios);
         echo "SALVO!";
     }
